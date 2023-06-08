@@ -1,0 +1,24 @@
+---
+title: "PFAScurve"
+author: "Trever Schwichtenberg"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+
+```{r}
+#Dependencies
+library(xlsx)
+```
+
+```{r}
+#Load Data
+calibration <- read.xlsx("Calibration PFAS Curve.xlsx", sheetIndex = 1)
+```
+
+```{r}
+#Create linear regression forcing the intercept through the origin (0)
+cal <- lm(calibration$response ~ 0 + calibration$nmoles.L, weights = 1/calibration$nmoles.L)
+cal$coefficients
+```
+#equation is y = mx + b, where b = 0, y = native/average of surrgates, and m = cal$coefficients
